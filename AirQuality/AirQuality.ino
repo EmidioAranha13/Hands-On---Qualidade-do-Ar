@@ -39,6 +39,11 @@ AirQualityData readSDS011() {
   return data;
 }
 
+// Função para enviar comandos ao SDS011
+void writeToSerial(const byte* command, size_t length) {
+  sds.write(command, length);
+}
+
 void setup() {
   // Inicializa a comunicação Serial com o computador
   Serial.begin(115200);
@@ -47,6 +52,10 @@ void setup() {
 
   // Inicializa a comunicação HardwareSerial com o SDS011
   sds.begin(9600, SERIAL_8N1, SDS_RX, SDS_TX);
+
+  // Exemplo: enviar comando para colocar o sensor no modo de espera
+  byte sleepCommand[] = {0xAA, 0xB4, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x05, 0xAB};
+  writeToSerial(sleepCommand, sizeof(sleepCommand));
 }
 
 void loop() {
@@ -65,3 +74,4 @@ void loop() {
   
   delay(1000);
 }
+
