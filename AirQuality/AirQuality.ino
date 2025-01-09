@@ -1,9 +1,10 @@
-#include <SoftwareSerial.h>
+#include <HardwareSerial.h>
 
-// SDS011 serial pins
-#define SDS_RX 1
-#define SDS_TX 3
-SoftwareSerial sds(SDS_RX, SDS_TX);
+// SDS011 serial connection
+#define SDS_RX 16 // Ajuste para o pino RX correto da sua placa
+#define SDS_TX 17 // Ajuste para o pino TX correto da sua placa
+
+HardwareSerial sds(1); // Use Serial1 para o SDS011 (no ESP32, Serial1 é customizável)
 
 // Estrutura para armazenar os valores do sensor
 struct AirQualityData {
@@ -16,15 +17,17 @@ struct AirQualityData {
 AirQualityData readSDS011() {
   AirQualityData data = {0, 0, false};
   
+  // Aguarda o byte inicial 0xAA
   while (sds.available() && sds.read() != 0xAA) { }
 
   byte buffer[10];
   buffer[0] = 0xAA;
 
+  // Verifica se há pelo menos 9 bytes disponíveis para leitura
   if (sds.available() >= 9) {
     sds.readBytes(&buffer[1], 9);
 
-    // Verifica se o último byte é o byte de término correto
+    // Verifica se o último byte é o byte de término correto (0xAB)
     if (buffer[9] == 0xAB) {
       int pm25int = (buffer[3] << 8) | buffer[2];
       int pm10int = (buffer[5] << 8) | buffer[4];
@@ -42,8 +45,8 @@ void setup() {
   delay(100);
   Serial.println("Initializing SDS011 Air Quality Monitor...");
 
-  // Inicializa a comunicação SoftwareSerial com o SDS011
-  sds.begin(9600);
+  // Inicializa a comunicação HardwareSerial com o SDS011
+  sds.begin(9600, SERIAL_8N1, SDS_RX, SDS_TX);
 }
 
 void loop() {
