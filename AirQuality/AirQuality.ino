@@ -1,45 +1,64 @@
 #include <SoftwareSerial.h>
 
-// sds011 serial pins
+// SDS011 serial pins
 #define SDS_RX 1
 #define SDS_TX 3
 SoftwareSerial sds(SDS_RX, SDS_TX);
 
+// Estrutura para armazenar os valores do sensor
+struct AirQualityData {
+  float pm2_5;
+  float pm10;
+  bool isValid; // Indica se os dados são válidos
+};
+
+// Função para ler os dados da serial
+AirQualityData readSDS011() {
+  AirQualityData data = {0, 0, false};
+  
+  while (sds.available() && sds.read() != 0xAA) { }
+
+  byte buffer[10];
+  buffer[0] = 0xAA;
+
+  if (sds.available() >= 9) {
+    sds.readBytes(&buffer[1], 9);
+
+    // Verifica se o último byte é o byte de término correto
+    if (buffer[9] == 0xAB) {
+      int pm25int = (buffer[3] << 8) | buffer[2];
+      int pm10int = (buffer[5] << 8) | buffer[4];
+      data.pm2_5 = pm25int / 10.0;
+      data.pm10 = pm10int / 10.0;
+      data.isValid = true;
+    }
+  }
+  return data;
+}
 
 void setup() {
-  // Initialize Serial communication with the computer
-  serial.begin(115200);
+  // Inicializa a comunicação Serial com o computador
+  Serial.begin(115200);
   delay(100);
-  Serial.println("Initializing sds011 Air Quality Monitor...");
+  Serial.println("Initializing SDS011 Air Quality Monitor...");
 
-  //Initialize SoftwareSerial communication with sds011
+  // Inicializa a comunicação SoftwareSerial com o SDS011
   sds.begin(9600);
 }
 
 void loop() {
- while (sds.available() && sds.read() != 0xAA) { }
-
- //Once we have the start byte, attempt to read the next 9 bytes
- byte buffer[10];
- buffer[0] = 0xAA;
- if (sds.available() >= 9) {
-  sds.readBytes(&buffer[1], 9);
-
-  //check if the last byte is the correct ending byte
-  if (buffer[9] == 0xAB) {
-    int pm25int = (buffer[3] << 8) | buffer[2];
-    int pm10int = (buffer[5] << 8) | buffer[4];
-    float pm2_5 = pm25int / 10.0;
-    float pm10 = pm10int / 10.0;
-
-    //Print the values
+  AirQualityData data = readSDS011();
+  
+  if (data.isValid) {
     Serial.print("PM2.5: ");
-    Serial.print(pm2_5, 2);
-    Serial.print(" ug/m2  ");
+    Serial.print(data.pm2_5, 2);
+    Serial.print(" ug/m3  ");
     Serial.print("PM10: ");
-    Serial.print(pm10, 2);
-    Serial.print(" ug/m2  ");
+    Serial.print(data.pm10, 2);
+    Serial.println(" ug/m3");
+  } else {
+    Serial.println("Failed to read valid data from SDS011.");
   }
- }
- delay(1000);
+  
+  delay(1000);
 }
