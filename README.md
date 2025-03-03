@@ -58,6 +58,12 @@ Para mais detalhes ou troubleshooting consulte nossa [Wiki](https://github.com/E
 
 {Instruções para reproduzir as alterações no AOSP}
 
+### Lib
+
+A lib do quality serve como uma interface de comunicação entre o driver do projeto e a sensors, centralizando a comunicação com o driver. Além disso, possibilita ter diferentes classes implementadas na sensors hal para cada sensor do protótipo, podendo serem usadas para outros fins, além de facilitar a manutenção código.
+
+Para aplicar a lib no projeto lineage, olhe: [Air Quality Lib](./lib/README.md).
+
 ## Contato
 
 Para perguntas, sugestões ou feedback, entre em contato com o mantenedor do projeto em [emidioaranha21@gmail.com](mailto:emidioaranha21@gmail.com).
