@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -58,129 +60,128 @@ fun OnboardingScreen(
     // Salvar no SharedPreferences que o onboarding já foi visto
     fun saveOnboardingCompleted(context: Context) {
         val sharedPrefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        sharedPrefs.edit().putBoolean("onboarding_completed", true).apply()
+        sharedPrefs.edit().putBoolean("onboarding_completed", false).apply()
         navController.navigate("home") {
             popUpTo("onBoarding") { inclusive = true }
         }
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().background(getBackgroundGradient())
-            .padding(0.dp),
+        modifier = Modifier.fillMaxSize(1f)
+            .background(getBackgroundGradient()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier
+                //.offset(y = 45.dp)
                 .padding(horizontal = 26.dp)
+                .padding(bottom = 20.dp)
+                .height(110.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color.White),
             contentAlignment = Alignment.Center,
         ) {
             Text(
+                modifier = Modifier.padding(horizontal = 15.dp),
                 text = slidePages[currentPage].title,
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(24.dp),
                 color = Color.DarkGray
             )
         }
         Image(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset(x = (-1).dp)
+                .padding(vertical = 20.dp),
             painter = painterResource(
                 when (currentPage) {
-                    0 -> R.drawable.onboarding_image_1
-                    1 -> R.drawable.onboarding_image_2
-                    2 -> R.drawable.onboarding_image_3
-                    else -> R.drawable.onboarding_image_4
+                    0 -> R.drawable.initiate_1
+                    1 -> R.drawable.initiate_2
+                    2 -> R.drawable.initiate_3
+                    else -> R.drawable.initiate_4
                 }
             ), // Substitua pelo nome da sua imagem
             contentDescription = "onboarding",
         )
 
-        // Indicador de progresso (bolinhas)
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().height(30.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            slidePages.forEachIndexed { index, _ ->
-                val isSelected = index == currentPage
-                Box(
-                    modifier = Modifier
-                        .size(if (isSelected) 30.dp else 26.dp)
-                        .padding(6.dp)
-                        .background(
-                            color = if (isSelected) MediumGreen else Color.White,
-                            shape = CircleShape
-                        ).clickable {
-                            currentPage = index
-                        }
-                )
-            }
-        }
-
-        // Botões de controle
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(6.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            //horizontalAlignment = Alignment.CenterHorizontally,
-            //verticalArrangement = Arrangement.Center
-        ) {
-            AnimatedVisibility(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                visible =  currentPage != 0) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MediumGreen,
-                        contentColor = Color.White
-                    ),
-                    onClick = { currentPage--}) {
-                    Text("Anterior")
-                }
-            }
-            AnimatedVisibility(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                visible = currentPage < slidePages.size - 1) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MediumGreen,
-                        contentColor = Color.White
-                    ),
-                    onClick = { currentPage++ }) {
-                    Text("Próximo")
-                }
-            }
-            AnimatedVisibility(
-                modifier = Modifier.padding(horizontal = 10.dp),
-                visible = currentPage != slidePages.size - 1) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = MediumGreen
-                    ),
-                    onClick = {
-                        saveOnboardingCompleted(actualContext)
-                        //(actualContext as? ComponentActivity)?.finish()
-                    }) {
-                    Text("Pular")
+            // Indicador de progresso (bolinhas)
+            Row(
+                modifier = Modifier.padding(bottom = 20.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                slidePages.forEachIndexed { index, _ ->
+                    val isSelected = index == currentPage
+                    Box(
+                        modifier = Modifier
+                            .size(if (isSelected) 30.dp else 26.dp)
+                            .padding(6.dp)
+                            .background(
+                                color = if (isSelected) MediumGreen else Color.White,
+                                shape = CircleShape
+                            ).clickable {
+                                currentPage = index
+                            }
+                    )
                 }
             }
 
-            AnimatedVisibility(visible = currentPage == slidePages.size - 1) {
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = MediumGreen
-                    ),
-                    onClick = {
-                    saveOnboardingCompleted(actualContext)
-                    //(actualContext as? ComponentActivity)?.finish()
-                }) {
-                    Text("Vamos Começar")
+            // Botões de controle
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                AnimatedVisibility(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    visible = currentPage != 0
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MediumGreen,
+                            contentColor = Color.White
+                        ),
+                        onClick = { currentPage-- }) {
+                        Text("Anterior")
+                    }
+                }
+                AnimatedVisibility(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    visible = currentPage < slidePages.size - 1
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MediumGreen,
+                            contentColor = Color.White
+                        ),
+                        onClick = { currentPage++ }) {
+                        Text("Próximo")
+                    }
+                }
+                AnimatedVisibility(
+                    modifier = Modifier.padding(horizontal = 10.dp),
+                    visible = currentPage == 0 || currentPage == slidePages.size - 1
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            contentColor = MediumGreen
+                        ),
+                        onClick = {
+                            saveOnboardingCompleted(actualContext)
+                            //(actualContext as? ComponentActivity)?.finish()
+                        }) {
+                        Text(text = if (currentPage != slidePages.size - 1) "Pular" else "Vamos Começar")
+                    }
                 }
             }
         }

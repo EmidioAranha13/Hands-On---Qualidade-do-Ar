@@ -192,62 +192,6 @@ fun ResumeCard(
 
         }
     }
-
-//    if (isExpanded) {
-//        Card(
-//            modifier = ,
-//            shape = RoundedCornerShape(16.dp),
-//            elevation = CardDefaults.cardElevation(
-//                defaultElevation = 0.dp,
-//                focusedElevation = 2.dp
-//            ),
-//            colors = CardDefaults.cardColors(
-//                containerColor = Color(0x33212121) // Cor preta com transparência (80% opacidade)
-//            )
-//        ) {
-//            if (resume != null) {
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(0.dp),
-//                    horizontalAlignment = Alignment.Start
-//
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .padding(top = 16.dp, start = 16.dp)
-//                            .drawBehind {
-//                                val strokeWidth = 4.dp.toPx()
-//                                drawLine(
-//                                    color = airQualityStatus.color,
-//                                    start = Offset(0f, size.height),
-//                                    end = Offset(size.width, size.height),
-//                                    strokeWidth = strokeWidth
-//                                )
-//                            }
-//                    ) {
-//                        Text(
-//                            modifier = Modifier.padding(0.dp),
-//                            text = resume.second,
-//                            color = Color.White,
-//                            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
-//                        )
-//                    }
-//                    Text(
-//                        modifier = Modifier.padding(16.dp),
-//                        text = resume.third,
-//                        textAlign = TextAlign.Justify,
-//                        style = MaterialTheme.typography.bodyMedium
-//                            .copy(
-//                                color = Color.White // Cor do texto alterada para branco
-//                            )
-//                    )
-//                }
-//            }
-//        }
-    //} else {
-
-    //}
 }
 
 @Preview(showBackground = true)

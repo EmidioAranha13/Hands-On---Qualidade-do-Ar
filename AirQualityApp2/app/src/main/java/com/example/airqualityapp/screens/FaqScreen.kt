@@ -23,13 +23,13 @@ import com.example.airqualityapp.utils.cards.InfoCard
 import com.example.airqualityapp.utils.getBackgroundGradient
 
 val questions = listOf(
-    "O que é o AirQuality?" to "O AirQuality é um aplicativo que monitora e exibe informações sobre a qualidade do ar em tempo real.",
-    "O que são os dados na tela principal?" to "São leituras dos sensores conectados que mostram informações como PM2.5, PM10, temperatura, umidade e monóxido de carbono.",
-    "Entendendo os dados do sensor SDS011" to "O sensor SDS011 mede partículas PM2.5 e PM10, onde valores menores indicam melhor qualidade do ar.",
-    "Entendendo os dados do sensor MQ9" to "O sensor MQ9 detecta níveis de monóxido de carbono. Quanto menor o valor, melhor a qualidade do ar.",
-    "Para quê serve o mapa do aplicativo?" to "O mapa exibe a localização dos sensores e a qualidade do ar em diferentes regiões.",
-    "Recebeu uma notificação do aplicativo?" to "As notificações alertam sobre mudanças significativas na qualidade do ar ou outros eventos importantes."
-)
+    "Sobre o AirQuality" to 1,
+    "Informações da tela principal" to 2,
+    "Entendendo os dados do sensor DHT11" to 3,
+    "Entendendo os dados do sensor SDS011" to 4,
+    "Entendendo os dados do sensor MQ9" to 5,
+    "Sobre o mapa" to 6,
+    "Notificações do aplicativo" to 7)
 
 @Composable
 fun FaqScreen () {

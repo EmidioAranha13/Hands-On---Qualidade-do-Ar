@@ -130,7 +130,7 @@ fun SensorCard(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Mostrar mais ",
+                    text = if (isExpanded) "Mostrar menos " else "Mostrar mais ",
                     modifier = Modifier
                         .clickable { isExpanded = !isExpanded }
                         //.align(Alignment.CenterHorizontally),

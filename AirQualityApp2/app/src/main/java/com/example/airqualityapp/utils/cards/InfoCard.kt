@@ -41,11 +41,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.airqualityapp.ui.theme.AirQualityAppTheme
 import com.example.airqualityapp.ui.theme.*
+import com.example.airqualityapp.utils.faq.*
+import com.example.airqualityapp.utils.getBackgroundGradient
 
 @Composable
 fun InfoCard(
     question: String,
-    answer: String,
+    answer: Int,
     expanded: Boolean = false,
     index: Int = 0,
     listState: LazyListState = rememberLazyListState()
@@ -86,8 +88,8 @@ fun InfoCard(
             ) {
                 Text(
                     text = question,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                        color = Color.White,
                     modifier = Modifier.weight(1f)
                 )
 
@@ -122,12 +124,31 @@ fun InfoCard(
                     focusedElevation = 2.dp
                 )
             ) {
-                Text(
-                    text = answer,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
-                    modifier = Modifier.padding(16.dp)
-                )
+                when (answer) {
+                    1 -> {
+                        AboutApp()
+                    }
+
+                    2 -> {
+                        HomeDataExplanetion()
+                    }
+                    3 -> {
+                        SensorDHT11Explanetion()
+                    }
+                    4 -> {
+                        SensorSDS011Explanetion()
+                    }
+                    5 -> {
+                        SensorMQ9Explanetion()
+                        }
+                    6 -> {
+                        MapExplanetion()
+                    }
+                    7 -> {
+                        NotificationsExplanetion()
+                    }
+
+                }
             }
         }
     }
@@ -143,7 +164,7 @@ fun InfoCardPreview() {
                 .background(Color.Black)
                 .padding(16.dp)
         ){
-            InfoCard(question = "O que é o AirQuality?", answer = "O AirQuality é um aplicativo que monitora e exibe informações sobre a qualidade do ar em tempo real.")
+            InfoCard(question = "O que é o AirQuality?", answer =  1)
         }
     }
 }
@@ -155,10 +176,10 @@ fun InfoCardExpandedPreview() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.Black)
+                .background(getBackgroundGradient())
                 .padding(16.dp)
         ){
-            InfoCard(question = "O que é o AirQuality?", answer = "O AirQuality é um aplicativo que monitora e exibe informações sobre a qualidade do ar em tempo real.", true)
+            InfoCard(question = "O que é o AirQuality?", answer = 2, true)
         }
     }
 }

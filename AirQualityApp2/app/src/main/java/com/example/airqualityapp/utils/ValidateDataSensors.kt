@@ -11,7 +11,9 @@ import com.example.airqualityapp.ui.theme.AirQualityAppTheme
 data class ValidatedData<T>(
     val sensor: T,
     val priority: Int = 0,
-    val extraInfo: List<String?> = emptyList()
+    val extraInfo: List<String?> = listOf("" +
+            "Sem informações adicionais no momento..." +
+            "\nOs dados podem está sendo atualizados.")
 )
 
 // Níveis de prioridade
@@ -163,11 +165,36 @@ fun handleExtraInfoMQ9(sensor: MQ9): List<String?> {
 
 fun handleExtraInfo(sensors: Sensors, typeSensor: Int): List<String?> {
     return when (typeSensor) {
-        0 -> handleExtraInfoDHT11(sensors.dht11)
-        1 -> handleExtraInfoSDS011(sensors.sds011)
-        else -> handleExtraInfoMQ9(sensors.mq9)
+        0 -> {
+            val extraInfoDHT11 = handleExtraInfoDHT11(sensors.dht11)
+            extraInfoDHT11.ifEmpty {
+                listOf(
+                    "Sem informações adicionais no momento..." +
+                            "\nOs dados podem estar sendo atualizados."
+                )
+            }
+        }
+        1 -> {
+            val extraInfoSDS011 = handleExtraInfoSDS011(sensors.sds011)
+            extraInfoSDS011.ifEmpty {
+                listOf(
+                    "Sem informações adicionais no momento..." +
+                            "\nOs dados podem estar sendo atualizados."
+                )
+            }
+        }
+        else -> {
+            val extraInfoMQ9 = handleExtraInfoMQ9(sensors.mq9)
+            extraInfoMQ9.ifEmpty {
+                listOf(
+                    "Sem informações adicionais no momento..." +
+                            "\nOs dados podem estar sendo atualizados."
+                )
+            }
+        }
     }
 }
+
 
 @Composable
 fun validateDataSensors(sensors: Sensors): List<ValidatedData<*>> {

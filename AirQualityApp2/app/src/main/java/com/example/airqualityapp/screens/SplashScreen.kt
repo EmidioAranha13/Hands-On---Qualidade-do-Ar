@@ -64,7 +64,7 @@ fun SplashScreen(navController: NavHostController) {
             ),
         )
         Image(
-            painter = painterResource(id = R.drawable.splash_air_quality_character2), // Substitua pelo nome da sua imagem
+            painter = painterResource(id = R.drawable.splash_image), // Substitua pelo nome da sua imagem
             contentDescription = "Splash Screen",
             modifier = Modifier.fillMaxWidth() // Ajuste o tamanho conforme necessário
         )

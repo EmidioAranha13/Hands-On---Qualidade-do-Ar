@@ -60,7 +60,7 @@ data class Sensors(
     val dht11: DHT11 = DHT11(),
     val sds011: SDS011 = SDS011(),
     val mq9: MQ9 = MQ9(),
-    val IQA: Int = 0,
+    val iqa: Int = 0,
 )
 
 class MainActivity : ComponentActivity() {
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                             pm10 = event.values[0]/100f,
                             pm25 = event.values[1]/100f
                         ),
-                        IQA = calculateIQA(event.values[0]/100f, event.values[1]/100f, event.values[5]/100f)
+                        iqa = calculateIQA(event.values[0]/100f, event.values[1]/100f, event.values[5]/100f)
                     )
                     Log.d("AirQualityApp", sensors.toString())
                 }
