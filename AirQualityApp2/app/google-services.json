@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "311457623920",
-    "project_id": "qualidade-do-ar-34127",
-    "storage_bucket": "qualidade-do-ar-34127.firebasestorage.app"
+    "project_number": "7222985371",
+    "project_id": "airqualityapp-18781",
+    "storage_bucket": "airqualityapp-18781.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:311457623920:android:2e4f3d8f99d98a5a8069b5",
+        "mobilesdk_app_id": "1:7222985371:android:04c1d5fcfbad5c43acbc3e",
         "android_client_info": {
           "package_name": "com.example.airqualityapp"
         }
@@ -15,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDnwFeKg6EyFjoJG0_UqWCXXiOHVnEH6_Y"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:311457623920:android:69f60a824b9ede6c8069b5",
-        "android_client_info": {
-          "package_name": "com.example.mapsteste"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDnwFeKg6EyFjoJG0_UqWCXXiOHVnEH6_Y"
+          "current_key": "AIzaSyDE6swoz8vK-cGb8qErlhsD5g8FyPih4x0"
         }
       ],
       "services": {

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,82 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AirQualityApp"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".utils.faq.NotificationsExplanetion"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.MapExplanetion"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.SensorMQ9Explanetion"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.SensorDHT11Explanetion"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.SensorSDS011Explanetion"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.HomeDataExplanation"
-            android:exported="false" />
-        <activity
-            android:name=".utils.faq.AboutApp"
-            android:exported="false" />
-        <activity
-            android:name=".viewModel.sensorsView"
-            android:exported="false" />
-        <activity
-            android:name=".utils.viewModel.Test"
-            android:exported="false" />
-        <activity
-            android:name=".utils.cards.ResumeCard"
-            android:exported="false" />
-        <activity
-            android:name=".utils.Descriptions"
-            android:exported="false" />
-        <activity
-            android:name=".screens.FirstEntryResume"
-            android:exported="false" />
-        <activity
-            android:name=".utils.calculateIQA"
-            android:exported="false" />
-        <activity
-            android:name=".utils.ExtraInfoValidation"
-            android:exported="false" />
-        <activity
-            android:name=".utils.PulsingIcon"
-            android:exported="false" />
-        <activity
-            android:name=".utils.InfoCard"
-            android:exported="false" />
-        <activity
-            android:name=".screens.FaqScreen"
-            android:exported="false" />
-        <activity
-            android:name=".utils.SensorCardDualValues"
-            android:exported="false" />
-        <activity
-            android:name=".utils.AirQualitySummary"
-            android:exported="false" />
-        <activity
-            android:name=".utils.SensorCard"
-            android:exported="false" />
-        <activity
-            android:name=".utils.BackgroundUtils"
-            android:exported="false" />
-        <activity
-            android:name=".MapScreen"
-            android:exported="false" />
-        <activity
-            android:name=".HomeScreen"
-            android:exported="false" />
-        <activity
-            android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".SplashScreen"
-            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -98,9 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="org.osmdroid.config"
+            android:value="osmdroid"/>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 </manifest>

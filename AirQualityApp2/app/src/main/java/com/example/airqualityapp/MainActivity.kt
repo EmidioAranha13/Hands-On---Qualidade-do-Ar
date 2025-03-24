@@ -34,6 +34,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.preference.PreferenceManager
 import com.example.airqualityapp.screens.FaqScreen
 import com.example.airqualityapp.screens.HomeScreen
 import com.example.airqualityapp.screens.MapScreen
@@ -69,6 +70,9 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Inicializa as configurações do OSMDroid
+        getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this))
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -185,18 +189,13 @@ fun AirQualityApp(sensors: Sensors = Sensors(DHT11(), SDS011(), MQ9())) {
         ) {
             composable("splash") { SplashScreen(navController) }
             composable("home") { HomeScreen(sensors) }
-            composable("map") { MapScreen("AirQualityMap") }
+            composable("map") { MapScreen() }
             composable("faq") { FaqScreen() }
             composable("onboarding") {
                 OnboardingScreen(0, navController)
             }
         }
     }
-//    if (currentRoute != "splash") {
-//
-//    } else {
-//        SplashScreen(navController)
-//    }
 }
 
 

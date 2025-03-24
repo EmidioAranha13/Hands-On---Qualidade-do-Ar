@@ -198,7 +198,7 @@ fun HomeDataExplanetion() {
 @Composable
 fun HomeDataExplanetionPreview() {
     AirQualityAppTheme {
-        Box() {
+        Box {
             HomeDataExplanetion()
         }
     }
