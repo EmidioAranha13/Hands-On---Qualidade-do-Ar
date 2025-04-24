@@ -109,7 +109,7 @@ fun HomeScreen(
                         SensorCard(
                             "Monóxido de Carbono",
                             "${sensor.carbonMonoxide} ppm",
-                            "MQ9",
+                            "MQ-9",
                             priority = sensorData.priority,
                             extraInfo = sensorData.extraInfo)
                     }

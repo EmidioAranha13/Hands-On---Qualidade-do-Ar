@@ -24,7 +24,7 @@ fun getBackgroundGradient(currentTime: LocalTime = LocalTime.now()): Brush {
     val endY = screenHeight * 1.70f    // Fim do degradê a 170% da altura da tela
 
     return when {
-        currentTime.isAfter(LocalTime.of(5, 30)) && currentTime.isBefore(LocalTime.of(7, 1)) -> {
+        currentTime.isAfter(LocalTime.of(5, 30)) && currentTime.isBefore(LocalTime.of(7, 0)) -> {
             Brush.verticalGradient(
                 colors = listOf(
                     IndigoBlue,
@@ -35,7 +35,7 @@ fun getBackgroundGradient(currentTime: LocalTime = LocalTime.now()): Brush {
                 endY = endY
             )
         }
-        currentTime.isAfter(LocalTime.of(7, 0)) && currentTime.isBefore(LocalTime.of(15, 1)) -> {
+        currentTime.isAfter(LocalTime.of(7, 0)) && currentTime.isBefore(LocalTime.of(15, 0)) -> {
             Brush.verticalGradient(
                 colors = listOf(
                     SkyBlue,
@@ -46,7 +46,7 @@ fun getBackgroundGradient(currentTime: LocalTime = LocalTime.now()): Brush {
                 endY = endY
             )
         }
-        currentTime.isAfter(LocalTime.of(15, 0)) && currentTime.isBefore(LocalTime.of(17, 41)) -> {
+        currentTime.isAfter(LocalTime.of(15, 0)) && currentTime.isBefore(LocalTime.of(17, 30)) -> {
             Brush.verticalGradient(
                 colors = listOf(
                     VibrantPurple,
@@ -57,7 +57,7 @@ fun getBackgroundGradient(currentTime: LocalTime = LocalTime.now()): Brush {
                 endY = endY
             )
         }
-        currentTime.isAfter(LocalTime.of(17, 40)) && currentTime.isBefore(LocalTime.of(19, 1)) -> {
+        currentTime.isAfter(LocalTime.of(17, 30)) && currentTime.isBefore(LocalTime.of(19, 0)) -> {
             Brush.verticalGradient(
                 colors = listOf(
                     MidnightBlue,

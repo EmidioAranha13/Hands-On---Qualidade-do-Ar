@@ -133,51 +133,56 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AirQualityApp(sensors: Sensors = Sensors(DHT11(), SDS011(), MQ9())) {
+fun AirQualityApp(sensors: Sensors = Sensors()) {
     val navController = rememberNavController()
     val tabs = listOf("Medidores", "Mapa", "Dúvidas")
     val routes = listOf("home", "map", "faq")
 
-    // Estado para aba selecionada com base na rota atual
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: "home"
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route ?: "splash"
+
+    val showTabs = currentRoute in routes
     val selectedTabIndex = routes.indexOf(currentRoute).coerceAtLeast(0)
     val backgroundGradient = getBackgroundGradient()
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .background(backgroundGradient),
-        containerColor = Color.Black.copy(alpha = 0.4f), // Transparência acinzentada no fundo do Scaffold
+        containerColor = Color.Black.copy(alpha = 0.4f),
         topBar = {
-            if(currentRoute != "splash" && currentRoute != "onboarding") TabRow(
-                selectedTabIndex = selectedTabIndex,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(backgroundGradient),
-                containerColor = Color.Black.copy(alpha = 0.2f), // Transparente e acinzentado no fundo das abas
-                contentColor = Color.White,
-                indicator = { tabPositions ->
-                    SecondaryIndicator(
-                        modifier = Modifier
-                            .tabIndicatorOffset(tabPositions[selectedTabIndex])
-                            .height(4.dp),
-                        color = Color.White
-                    )
-                }
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        text = { Text(title, color = Color.White) },
-                        selected = selectedTabIndex == index,
-                        onClick = {
-                            val targetRoute = routes[index]
-                            if (currentRoute != targetRoute) {
-                                navController.navigate(targetRoute) {
-                                    popUpTo("home") { inclusive = false }
-                                    launchSingleTop = true
+            if (showTabs) {
+                TabRow(
+                    selectedTabIndex = selectedTabIndex,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(backgroundGradient),
+                    containerColor = Color.Black.copy(alpha = 0.2f),
+                    contentColor = Color.White,
+                    indicator = { tabPositions ->
+                        SecondaryIndicator(
+                            modifier = Modifier
+                                .tabIndicatorOffset(tabPositions[selectedTabIndex])
+                                .height(4.dp),
+                            color = Color.White
+                        )
+                    }
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            text = { Text(title, color = Color.White) },
+                            selected = selectedTabIndex == index,
+                            onClick = {
+                                val targetRoute = routes[index]
+                                if (currentRoute != targetRoute) {
+                                    navController.navigate(targetRoute) {
+                                        popUpTo("home") { inclusive = false }
+                                        launchSingleTop = true
+                                    }
                                 }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -197,6 +202,18 @@ fun AirQualityApp(sensors: Sensors = Sensors(DHT11(), SDS011(), MQ9())) {
         }
     }
 }
+
+//@Composable
+//fun AirQualityApp(sensors: Sensors = Sensors(DHT11(), SDS011(), MQ9())) {
+//    val navController = rememberNavController()
+//    val tabs = listOf("Medidores", "Mapa", "Dúvidas")
+//    val routes = listOf("home", "map", "faq")
+//
+//    // Estado para aba selecionada com base na rota atual
+//    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: "home"
+//    val selectedTabIndex = routes.indexOf(currentRoute).coerceAtLeast(0)
+//    val backgroundGradient = getBackgroundGradient()
+
 
 
 @Preview(showBackground = true)

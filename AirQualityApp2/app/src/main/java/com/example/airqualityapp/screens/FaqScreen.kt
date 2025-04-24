@@ -27,7 +27,7 @@ val questions = listOf(
     "Informações da tela principal" to 2,
     "Entendendo os dados do sensor DHT11" to 3,
     "Entendendo os dados do sensor SDS011" to 4,
-    "Entendendo os dados do sensor MQ9" to 5,
+    "Entendendo os dados do sensor MQ-9" to 5,
     "Sobre o mapa" to 6,
     "Notificações do aplicativo" to 7)
 

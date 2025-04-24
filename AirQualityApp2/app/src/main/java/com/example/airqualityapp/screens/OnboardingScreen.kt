@@ -2,7 +2,6 @@ package com.example.airqualityapp.screens
 
 import android.annotation.SuppressLint
 import android.content.Context
-//import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,10 +25,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
@@ -44,6 +45,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.airqualityapp.R
 import com.example.airqualityapp.ui.theme.MediumGreen
 import com.example.airqualityapp.utils.slidePages
+import kotlinx.coroutines.delay
+import androidx.core.content.edit
 
 
 @SuppressLint("ContextCastToActivity")
@@ -54,15 +57,20 @@ fun OnboardingScreen(
     context: Context? = null
 ) {
     val actualContext = context ?: LocalContext.current // Usa o contexto passado ou obtém um
-
     var currentPage by remember { mutableIntStateOf(curPage) }
+    var navigateToHome by remember { mutableIntStateOf(0) }
 
     // Salvar no SharedPreferences que o onboarding já foi visto
-    fun saveOnboardingCompleted(context: Context) {
-        val sharedPrefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        sharedPrefs.edit().putBoolean("onboarding_completed", false).apply()
-        navController.navigate("home") {
-            popUpTo("onBoarding") { inclusive = true }
+    if (navigateToHome == 1) {
+        LaunchedEffect(Unit) {
+            delay(300)
+            actualContext.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                .edit { putBoolean("onboarding_completed", false) }
+            // Navega para a tela principal
+            navController.navigate("home") {
+                popUpTo("onBoarding") { inclusive = true }
+            }
+            navigateToHome = 2 // evita repetir navegação
         }
     }
 
@@ -91,6 +99,7 @@ fun OnboardingScreen(
                 color = Color.DarkGray
             )
         }
+
         Image(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,7 +131,7 @@ fun OnboardingScreen(
                     val isSelected = index == currentPage
                     Box(
                         modifier = Modifier
-                            .size(if (isSelected) 30.dp else 26.dp)
+                            .size(if (isSelected) 28.dp else 26.dp)
                             .padding(6.dp)
                             .background(
                                 color = if (isSelected) MediumGreen else Color.White,
@@ -142,45 +151,36 @@ fun OnboardingScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 AnimatedVisibility(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    visible = currentPage != 0
+                    modifier = Modifier.padding(horizontal = 10.dp).width(100.dp),
+                    visible = true
                 ) {
                     Button(
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MediumGreen,
-                            contentColor = Color.White
-                        ),
-                        onClick = { currentPage-- }) {
-                        Text("Anterior")
-                    }
-                }
-                AnimatedVisibility(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    visible = currentPage < slidePages.size - 1
-                ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MediumGreen,
-                            contentColor = Color.White
-                        ),
-                        onClick = { currentPage++ }) {
-                        Text("Próximo")
-                    }
-                }
-                AnimatedVisibility(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    visible = currentPage == 0 || currentPage == slidePages.size - 1
-                ) {
-                    Button(
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = MediumGreen
+                            containerColor = if (currentPage == 0) Color.White else MediumGreen,
+                            contentColor = if (currentPage == 0) MediumGreen else Color.White
                         ),
                         onClick = {
-                            saveOnboardingCompleted(actualContext)
+                            if (currentPage == 0) navigateToHome = 1
+                            else currentPage--
+                        }) {
+                        Text(text = if (currentPage == 0) "Pular" else "Anterior")
+                    }
+                }
+                AnimatedVisibility(
+                    modifier = Modifier.padding(horizontal = 10.dp).width(110.dp),
+                    visible = true
+                ) {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (currentPage == slidePages.size - 1) Color.White else MediumGreen,
+                            contentColor = if (currentPage == slidePages.size - 1) MediumGreen else Color.White
+                        ),
+                        onClick = {
+                            if (currentPage != slidePages.size - 1) currentPage++
+                            else navigateToHome = 1
                             //(actualContext as? ComponentActivity)?.finish()
                         }) {
-                        Text(text = if (currentPage != slidePages.size - 1) "Pular" else "Vamos Começar")
+                        Text(text = if (currentPage != slidePages.size - 1) "Próximo" else "Começar")
                     }
                 }
             }
